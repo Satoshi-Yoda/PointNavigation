@@ -1,8 +1,10 @@
 require "Point"
 require "Robot"
+require "Ray"
 
 global = {
 	points = {},
+	rays = {},
 	robot = {}
 }
 
@@ -12,21 +14,32 @@ function love.load()
 	love.graphics.setBackgroundColor(150, 170, 170)
 	math.randomseed(os.time())
 
+	global.robot = Robot.create(480, 480)
+
 	for i = 1, 8 do
 		local newPoint = Point.create(160 + math.random(960 - 320), 160 + math.random(960 - 320), i)
 		table.insert(global.points, newPoint)
-	end
 
-	global.robot = Robot.create(480, 480)
+		local newRay = Ray.create(global.robot, newPoint)
+		table.insert(global.rays, newRay)
+	end
 end
 
 function love.update(dt)
-
+	if love.mouse.isDown("l") then
+		local a, b = love.mouse.getPosition()
+		global.robot.x, global.robot.y = a, b
+	end
 end
 
 function love.draw()
+	global.robot:draw()
+
 	for key,value in pairs(global.points) do
     	value:draw()
 	end
-	global.robot:draw()
+
+	for key,value in pairs(global.rays) do
+    	value:draw()
+	end
 end
