@@ -3,12 +3,13 @@ Point.__index = Point
 
 Point.IMAGE = love.graphics.newImage("_pic/black-point.png")
 
-function Point.create(x, y)
+function Point.create(x, y, index)
 	local new = {}
 	setmetatable(new, Point)
 
 	new.x = x
 	new.y = y
+	new.index = index
 
 	return new
 end

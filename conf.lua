@@ -1,5 +1,5 @@
 io.stdout:setvbuf("no")
 
 function love.conf(t)
-	t.title = "Робот-художник же"
+	t.title = "Навигация по точкам"
 end
