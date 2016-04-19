@@ -1,3 +1,5 @@
+require "utils"
+
 Ray = {}
 Ray.__index = Ray
 
@@ -19,5 +21,6 @@ end
 
 function Ray:draw(camera)
 	love.graphics.setColor(255, 0, 0, 64)
-	love.graphics.line(self.from.x, self.from.y, self.to.x, self.to.y)
+	--love.graphics.line(self.from.x, self.from.y, self.to.x, self.to.y)
+	utils.lineStipple(self.from.x, self.from.y, self.to.x, self.to.y)
 end
