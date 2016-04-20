@@ -13,7 +13,7 @@ global = {
 	robot = {}
 }
 
-ANGLE_ERROR = 0.08 -- radians
+ANGLE_ERROR = 4 * 3.14159 / 180 -- radians
 
 function love.load()
 	love.window.setMode(960, 960, {resizable=false, vsync=true})
@@ -24,7 +24,7 @@ function love.load()
 	global.robot = Robot.create(480, 480, "real")
 	global.supposedPosition = Robot.create(480, 480, "supposed")
 
-	for i = 1, 5 do
+	for i = 1, 2 do
 		local newPoint = Point.create(160 + math.random(960 - 320), 160 + math.random(960 - 320), i)
 		table.insert(global.points, newPoint)
 
@@ -108,7 +108,7 @@ end
 function calcSupposedPosition()
 	local crossX = {}
 	local crossY = {}
-	local count = 0
+	local count = 1
 	for key,value in pairs(global.crossPoints) do
 		table.insert(crossX, value.x)
 		table.insert(crossY, value.y)
