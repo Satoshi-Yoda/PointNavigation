@@ -9,6 +9,7 @@ global = {
 	angles = {},
 	supposedRays = {},
 	crossPoints = {},
+	supposedPosition = {},
 	robot = {}
 }
 
@@ -20,7 +21,8 @@ function love.load()
 	love.graphics.setBackgroundColor(150, 170, 170)
 	math.randomseed(os.time())
 
-	global.robot = Robot.create(480, 480)
+	global.robot = Robot.create(480, 480, "real")
+	global.supposedPosition = Robot.create(480, 480, "supposed")
 
 	for i = 1, 5 do
 		local newPoint = Point.create(160 + math.random(960 - 320), 160 + math.random(960 - 320), i)
@@ -38,6 +40,7 @@ function love.update(dt)
 		gatherAngles()
 		calcSupposedRays()
 		calcCrossPoints()
+		calcSupposedPosition()
 	end
 end
 
@@ -59,6 +62,7 @@ function love.draw()
 	end
 
 	global.robot:draw()
+	global.supposedPosition:draw()
 end
 
 function gatherAngles()
@@ -89,7 +93,7 @@ function calcCrossPoints()
 		local p1 = global.points[key1] -- TODO key is the index of point, not supposedRay!
 		local p2 = global.points[key2] -- TODO key is the index of point, not supposedRay!
 		local div = (r2.x*r1.y - r1.x*r2.y)
-		if math.abs(div) > 0.01 then
+		if math.abs(div) > 0.1 then
 			local betta = (r1.x*(p2.y-p1.y)-r1.y*(p2.x-p1.x))/div
 			local x = p2.x+r2.x*betta
 			local y = p2.y+r2.y*betta
@@ -102,6 +106,17 @@ function calcCrossPoints()
 end
 
 function calcSupposedPosition()
+	local crossX = {}
+	local crossY = {}
+	local count = 0
+	for key,value in pairs(global.crossPoints) do
+		table.insert(crossX, value.x)
+		table.insert(crossY, value.y)
+		count = count + 1
+	end
 
-
+	table.sort(crossX)
+	table.sort(crossY)
+	global.supposedPosition.x =	crossX[math.floor(count / 2)]
+	global.supposedPosition.y =	crossY[math.floor(count / 2)]
 end

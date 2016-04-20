@@ -24,8 +24,8 @@ function Ray.createWithDirection(from, direction)
 
 	new.from = from
 	local to = {}
-	to.x = from.x + direction.x * 800
-	to.y = from.y + direction.y * 800
+	to.x = from.x + direction.x * 1200
+	to.y = from.y + direction.y * 1200
 	new.to = to
 	new.x = direction.x
 	new.y = direction.y
