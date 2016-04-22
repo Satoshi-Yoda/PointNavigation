@@ -19,7 +19,7 @@ function Robot:update(dt)
 	
 end
 
-function Robot:draw(camera)
+function Robot:draw()
 	love.graphics.setColor(255, 255, 255)
 	if self.type == "real" then
 		love.graphics.draw(Robot.IMAGE_RED, self.x, self.y, 0, 1, 1, Robot.IMAGE_RED:getWidth()/2, Robot.IMAGE_RED:getHeight()/2)

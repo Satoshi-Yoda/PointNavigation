@@ -38,7 +38,7 @@ function Ray:update(dt)
 	
 end
 
-function Ray:draw(camera)
+function Ray:draw()
 	if self.mode == "target" then
 		love.graphics.setColor(255, 0, 0, 64)
 		utils.lineStipple(self.from.x, self.from.y, self.to.x, self.to.y)

@@ -1,3 +1,5 @@
+require "Robot"
+
 CircleNavigation = {}
 CircleNavigation.__index = CircleNavigation
 
@@ -9,7 +11,7 @@ function CircleNavigation.create(points)
 	new.angles = {}
 	new.crossPoints = {}
 	new.crossCircles = {}
-	new.supposedPosition = {}
+	new.supposedPosition = Robot.create(480, 480, "supposed")
 
 	return new
 end
@@ -33,6 +35,8 @@ function CircleNavigation:drawLast()
 	for key,value in pairs(self.points) do
     	value:draw()
 	end
+
+	self.supposedPosition:draw()
 end
 
 function CircleNavigation:calcCircledCrossPoints()
