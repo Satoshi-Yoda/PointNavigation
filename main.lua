@@ -6,6 +6,7 @@ require "CrossPoint"
 global = {
 	points = {},
 	rays = {},
+	idealAngles = {},
 	angles = {},
 	supposedRays = {},
 	crossPoints = {},
@@ -13,7 +14,7 @@ global = {
 	robot = {}
 }
 
-ANGLE_ERROR = 4 * 3.14159 / 180 -- radians
+ANGLE_ERROR = 1 * 3.14159 / 180 -- radians
 
 function love.load()
 	love.window.setMode(960, 960, {resizable=false, vsync=true})
@@ -24,7 +25,7 @@ function love.load()
 	global.robot = Robot.create(480, 480, "real")
 	global.supposedPosition = Robot.create(480, 480, "supposed")
 
-	for i = 1, 2 do
+	for i = 1, 8 do
 		local newPoint = Point.create(160 + math.random(960 - 320), 160 + math.random(960 - 320), i)
 		table.insert(global.points, newPoint)
 
@@ -38,8 +39,8 @@ function love.update(dt)
 		local a, b = love.mouse.getPosition()
 		global.robot.x, global.robot.y = a, b
 		gatherAngles()
-		calcSupposedRays()
-		calcCrossPoints()
+		--calcSupposedRays()
+		calcCircledCrossPoints()
 		calcSupposedPosition()
 	end
 end
@@ -66,9 +67,12 @@ function love.draw()
 end
 
 function gatherAngles()
+	global.idealAngles = {}
 	global.angles = {}
 	for key,value in pairs(global.points) do
 		local newAngle = math.atan2(global.robot.y - value.y, global.robot.x - value.x)
+    	table.insert(global.idealAngles, newAngle)
+    	newAngle = newAngle + math.random() * ANGLE_ERROR * 2 - ANGLE_ERROR
     	table.insert(global.angles, newAngle)
 	end
 end
@@ -105,6 +109,26 @@ function calcCrossPoints()
 	end
 end
 
+function calcCircledCrossPoints()
+	global.crossPoints = {}
+	local count = 0
+	for key1,p1 in pairs(global.points) do
+	for key2,p2 in pairs(global.points) do
+	for key3,p3 in pairs(global.points) do
+	if key1 > key2 and key2 > key3 then
+		local alpha1 = global.angles[key2] - global.angles[key1]
+		local alpha2 = global.angles[key3] - global.angles[key2]
+		local v = calcCircledPosition(p1, p2, p3, alpha1, alpha2)
+		local newCrossPoint = CrossPoint.create(v.x, v.y)
+		table.insert(global.crossPoints, newCrossPoint)
+		count = count + 1
+	end
+	end
+	end
+	end
+	print(count)
+end
+
 function calcSupposedPosition()
 	local crossX = {}
 	local crossY = {}
@@ -119,4 +143,22 @@ function calcSupposedPosition()
 	table.sort(crossY)
 	global.supposedPosition.x =	crossX[math.floor(count / 2)]
 	global.supposedPosition.y =	crossY[math.floor(count / 2)]
+end
+
+function calcCircledPosition(p1, p2, p3, alpha1, alpha2)
+	local o12 = {}
+	o12.x = ((p1.x+p2.x) + (p1.y-p2.y)/math.tan(alpha1)) / 2
+	o12.y = ((p1.y+p2.y) + (p2.x-p1.x)/math.tan(alpha1)) / 2
+
+	local o23 = {}
+	o23.x = ((p2.x+p3.x) + (p2.y-p3.y)/math.tan(alpha2)) / 2
+	o23.y = ((p2.y+p3.y) + (p3.x-p2.x)/math.tan(alpha2)) / 2
+
+	local a = ((o12.x-p2.x)*(o23.y-o12.y)+(p2.y-o12.y)*(o23.x-o12.x)) / ((o12.y-o23.y)*(o23.y-o12.y)+(o23.x-o12.x)*(o12.x-o23.x))
+
+	local v = {}
+	v.x = p2.x + 2*a*(o12.y-o23.y)
+	v.y = p2.y + 2*a*(o23.x-o12.x)
+
+	return v
 end
