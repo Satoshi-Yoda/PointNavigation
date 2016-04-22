@@ -70,6 +70,21 @@ function utils.avg(t)
     end
 end
 
+function utils.med(t)
+    local count = 1
+    for key,value in pairs(t) do
+        count = count + 1
+    end
+
+    table.sort(t)
+
+    if count > 1 then
+        return t[count/2]
+    else
+        return 0
+    end
+end
+
 function utils.lineStipple(x1, y1, x2, y2, dash, gap)
     local dash = dash or 5
     local gap  = dash + (gap or 0)

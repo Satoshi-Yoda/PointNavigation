@@ -1,7 +1,7 @@
 ErrorMapper = {}
 ErrorMapper.__index = ErrorMapper
 
-SAMPLE_SIZE = 16
+SAMPLE_SIZE = 32
 
 function ErrorMapper.create()
 	local new = {}
@@ -35,7 +35,7 @@ function ErrorMapper:tick()
 	v.y = self.j * SAMPLE_SIZE
 
 	local errors = {}
-	for i = 1, 250 do
+	for i = 1, 100 do
 		local angles = global.simulation:gatherAngles(v)
 		local position = global.navigation:calcPosition(angles)
 		local dx = math.abs(position.x - v.x)
@@ -76,7 +76,7 @@ function ErrorMapper:draw()
 		local r = utils.math.clamp(0, 58.9341 * math.log(21.7891 * sample.error), 255)
 		local g = utils.math.clamp(0, -59.0062 * math.log(0.287272 * sample.error), 255)
 		if sample.error <= 0.2 then
-			g = utils.math.clamp(0, g + 32, 255)
+			g = utils.math.clamp(0, g + 64, 255)
 		end
 		love.graphics.setColor(r, g, 0, 128)
 

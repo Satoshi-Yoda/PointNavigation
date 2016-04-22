@@ -16,6 +16,6 @@ function Circle:update(dt)
 end
 
 function Circle:draw()
-	love.graphics.setColor(0, 0, 255, 24)
+	love.graphics.setColor(0, 0, 255, 32)
 	love.graphics.circle("line", self.c.x, self.c.y, self.r, 144)
 end
