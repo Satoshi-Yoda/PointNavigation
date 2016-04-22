@@ -27,10 +27,10 @@ function Simulation.create()
 	return new
 end
 
-function Simulation:gatherAngles()
+function Simulation:gatherAngles(position)
 	local angles = {}
 	for key,value in pairs(self.points) do
-		local newAngle = math.atan2(self.robot.y - value.y, self.robot.x - value.x)
+		local newAngle = math.atan2(position.y - value.y, position.x - value.x)
     	newAngle = newAngle + math.random() * ANGLE_ERROR * 2 - ANGLE_ERROR
     	table.insert(angles, newAngle)
 	end

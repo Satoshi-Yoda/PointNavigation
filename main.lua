@@ -24,8 +24,12 @@ function love.update(dt)
 	if love.mouse.isDown("l") then
 		local a, b = love.mouse.getPosition()
 		global.simulation.robot.x, global.simulation.robot.y = a, b
-		local angles = global.simulation:gatherAngles()
+		local angles = global.simulation:gatherAngles(global.simulation.robot)
 		global.navigation:calcPosition(angles)
+	elseif love.mouse.isDown("r") then
+		global.errorMapper:update(dt)
+	else
+		global.errorMapper:update(dt)
 	end
 end
 

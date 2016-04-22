@@ -36,6 +36,40 @@ function utils.math.sign(x)
 	end
 end
 
+function utils.max(t)
+    local result = -math.huge
+    for key,value in pairs(t) do
+        if value > result then
+            result = value
+        end
+    end
+    return result
+end
+
+function utils.min(t)
+    local result = math.huge
+    for key,value in pairs(t) do
+        if value < result then
+            result = value
+        end
+    end
+    return result
+end
+
+function utils.avg(t)
+    local result = 0
+    local count = 0
+    for key,value in pairs(t) do
+        result = result + value
+        count = count + 1
+    end
+    if count > 0 then
+        return result / count
+    else
+        return 0
+    end
+end
+
 function utils.lineStipple(x1, y1, x2, y2, dash, gap)
     local dash = dash or 5
     local gap  = dash + (gap or 0)
