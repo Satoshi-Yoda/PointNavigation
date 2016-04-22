@@ -2,6 +2,7 @@ require "Point"
 require "Robot"
 require "Ray"
 require "CrossPoint"
+require "Circle"
 
 global = {
 	points = {},
@@ -10,6 +11,7 @@ global = {
 	angles = {},
 	supposedRays = {},
 	crossPoints = {},
+	crossCircles = {},
 	supposedPosition = {},
 	robot = {}
 }
@@ -25,7 +27,7 @@ function love.load()
 	global.robot = Robot.create(480, 480, "real")
 	global.supposedPosition = Robot.create(480, 480, "supposed")
 
-	for i = 1, 8 do
+	for i = 1, 10 do
 		local newPoint = Point.create(160 + math.random(960 - 320), 160 + math.random(960 - 320), i)
 		table.insert(global.points, newPoint)
 
@@ -51,6 +53,10 @@ function love.draw()
 	end
 
 	for key,value in pairs(global.supposedRays) do
+    	value:draw()
+	end
+
+	for key,value in pairs(global.crossCircles) do
     	value:draw()
 	end
 
@@ -110,6 +116,7 @@ function calcCrossPoints()
 end
 
 function calcCircledCrossPoints()
+	global.crossCircles = {}
 	global.crossPoints = {}
 	local count = 0
 	for key1,p1 in pairs(global.points) do
@@ -159,6 +166,14 @@ function calcCircledPosition(p1, p2, p3, alpha1, alpha2)
 	local v = {}
 	v.x = p2.x + 2*a*(o12.y-o23.y)
 	v.y = p2.y + 2*a*(o23.x-o12.x)
+
+	local d12 = utils.math.distance(p1.x, p1.y, p2.x, p2.y)
+	local newCrossCircle1 = Circle.create(o12, d12/(2*math.sin(alpha1)))
+	table.insert(global.crossCircles, newCrossCircle1)
+
+	local d23 = utils.math.distance(p2.x, p2.y, p3.x, p3.y)
+	local newCrossCircle2 = Circle.create(o23, d23/(2*math.sin(alpha2)))
+	table.insert(global.crossCircles, newCrossCircle2)
 
 	return v
 end
