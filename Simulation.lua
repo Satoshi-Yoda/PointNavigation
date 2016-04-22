@@ -1,5 +1,6 @@
 require "Robot"
 require "Ray"
+require "Point"
 
 Simulation = {}
 Simulation.__index = Simulation

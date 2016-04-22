@@ -1,4 +1,6 @@
 require "Robot"
+require "Circle"
+require "CrossPoint"
 
 CircleNavigation = {}
 CircleNavigation.__index = CircleNavigation

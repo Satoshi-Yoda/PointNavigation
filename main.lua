@@ -1,15 +1,12 @@
-require "Point"
-require "Robot"
-require "Ray"
-require "CrossPoint"
-require "Circle"
 require "RayNavigation"
 require "CircleNavigation"
 require "Simulation"
+require "ErrorMapper"
 
 global = {
 	simulation = {},
-	navigation = {}
+	navigation = {},
+	errorMapper = {}
 }
 
 function love.load()
@@ -20,6 +17,7 @@ function love.load()
 
 	global.simulation = Simulation.create()
 	global.navigation = CircleNavigation.create(global.simulation.points)
+	global.errorMapper = ErrorMapper.create()
 end
 
 function love.update(dt)
@@ -32,6 +30,7 @@ function love.update(dt)
 end
 
 function love.draw()
+	global.errorMapper:draw()
 	global.simulation:drawBase()
 	global.navigation:drawLast()
 end
