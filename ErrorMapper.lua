@@ -11,6 +11,7 @@ function ErrorMapper.create()
 	new.i = 0
 	new.j = 0
 	new.done = false
+	new.works = false
 
 	return new
 end

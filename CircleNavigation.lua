@@ -59,7 +59,6 @@ function CircleNavigation:calcCircledCrossPoints()
 	end
 	end
 	end
-	print(count)
 end
 
 function CircleNavigation:calcSupposedPosition()

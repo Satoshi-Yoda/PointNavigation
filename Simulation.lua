@@ -6,6 +6,7 @@ Simulation = {}
 Simulation.__index = Simulation
 
 ANGLE_ERROR = 0.3 * math.pi / 180 -- radians
+POINTS_COUNT = 5
 
 function Simulation.create()
 	local new = {}
@@ -16,7 +17,7 @@ function Simulation.create()
 
 	new.robot = Robot.create(480, 480, "real")
 
-	for i = 1, 8 do
+	for i = 1, POINTS_COUNT do
 		local newPoint = Point.create(160 + math.random(960 - 320), 160 + math.random(960 - 320), i)
 		table.insert(new.points, newPoint)
 
