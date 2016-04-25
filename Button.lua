@@ -35,6 +35,8 @@ function Button:update(dt)
 end
 
 function Button:draw()
+	love.graphics.setColor(128, 128, 128, 255)
+	love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 	if self.pressed then
 		love.graphics.setColor(128, 128, 128, 255)
 	else
@@ -42,5 +44,5 @@ function Button:draw()
 	end
 	love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 	love.graphics.setColor(32, 32, 32, 255)
-	love.graphics.printf(self.caption, self.x, self.y + 8, self.w, "center")
+	love.graphics.printf(self.caption, self.x, self.y + 5, self.w, "center")
 end

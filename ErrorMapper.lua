@@ -2,6 +2,7 @@ ErrorMapper = {}
 ErrorMapper.__index = ErrorMapper
 
 SAMPLE_SIZE = 32
+SAMPLE_COUNT = 250
 
 function ErrorMapper.create()
 	local new = {}
@@ -12,6 +13,7 @@ function ErrorMapper.create()
 	new.j = 0
 	new.done = false
 	new.works = false
+	new.direction = true
 
 	return new
 end
@@ -21,7 +23,7 @@ function ErrorMapper:update(dt)
 		return
 	end
 
-	for i = 1, 10 do
+	for i = 1, 3 do
 		self:tick()
 	end
 end
@@ -36,7 +38,7 @@ function ErrorMapper:tick()
 	v.y = self.j * SAMPLE_SIZE
 
 	local errors = {}
-	for i = 1, 100 do
+	for i = 1, SAMPLE_COUNT do
 		local angles = global.simulation:gatherAngles(v)
 		local position = global.navigation:calcPosition(angles)
 		local dx = math.abs(position.x - v.x)
@@ -51,9 +53,21 @@ function ErrorMapper:tick()
 	newSample.error = utils.avg(errors)
 	table.insert(self.samples, newSample)
 
-	self.i = self.i + 1
-	if self.i > math.floor(960 / SAMPLE_SIZE) then
-		self.i = 0
+	if self.direction == true then
+		self.i = self.i + 1
+	else
+		self.i = self.i - 1
+	end
+
+	if self.i > math.floor(960 / SAMPLE_SIZE) or self.i < 0 then
+		if self.direction == true then
+			self.i = math.floor(960 / SAMPLE_SIZE)
+			self.direction = false
+		else
+			self.i = 0
+			self.direction = true
+		end
+
 		self.j = self.j + 1
 		if self.j > math.floor(960 / SAMPLE_SIZE) then
 			self.j = 0

@@ -17,6 +17,27 @@ function calcErrorMap()
 	global.errorMapper.works = true
 end
 
+function createRandomPoints()
+	global.simulation = Simulation.create()
+	global.simulation:createRandomPoints()
+	global.navigation = CircleNavigation.create(global.simulation.points)
+	global.errorMapper = ErrorMapper.create()
+end
+
+function createCirclePoints()
+	global.simulation = Simulation.create()
+	global.simulation:createCirclePoints()
+	global.navigation = CircleNavigation.create(global.simulation.points)
+	global.errorMapper = ErrorMapper.create()
+end
+
+function createDiskPoints()
+	global.simulation = Simulation.create()
+	global.simulation:createDiskPoints()
+	global.navigation = CircleNavigation.create(global.simulation.points)
+	global.errorMapper = ErrorMapper.create()
+end
+
 function love.load()
 	love.window.setMode(960, 960, {resizable=false, vsync=true})
 	love.graphics.setLineWidth(1)
@@ -26,9 +47,12 @@ function love.load()
 	global.simulation = Simulation.create()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
+	
+	table.insert(global.buttons, Button.create(10, 10, 120, 23, "Random points", createRandomPoints))
+	table.insert(global.buttons, Button.create(10, 40, 120, 23, "Circle points", createCirclePoints))
+	table.insert(global.buttons, Button.create(10, 70, 120, 23, "Disk points", createDiskPoints))
 
-	local button = Button.create(200, 100, 120, 28, "Error map", calcErrorMap)
-	table.insert(global.buttons, button)
+	table.insert(global.buttons, Button.create(140, 10, 120, 23, "Error map", calcErrorMap))
 end
 
 function love.update(dt)
