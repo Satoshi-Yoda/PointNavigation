@@ -1,8 +1,9 @@
 ErrorMapper = {}
 ErrorMapper.__index = ErrorMapper
 
-SAMPLE_SIZE = 32
-SAMPLE_COUNT = 250
+SAMPLE_SIZE = 16
+SAMPLE_COUNT = 150
+SAMPLE_PER_TICK = 2
 
 function ErrorMapper.create()
 	local new = {}
@@ -23,7 +24,7 @@ function ErrorMapper:update(dt)
 		return
 	end
 
-	for i = 1, 3 do
+	for i = 1, SAMPLE_PER_TICK do
 		self:tick()
 	end
 end
@@ -91,10 +92,16 @@ function ErrorMapper:draw()
 		local r = utils.math.clamp(0, 58.9341 * math.log(21.7891 * sample.error), 255)
 		local g = utils.math.clamp(0, -59.0062 * math.log(0.287272 * sample.error), 255)
 		if sample.error <= 0.2 then
-			g = utils.math.clamp(0, g + 64, 255)
+			-- g = utils.math.clamp(0, g + 64, 255)
+		else
+			love.graphics.setColor(255, 0, 0, 64)
+			love.graphics.line(sample.x - s/2, sample.y - s/2, sample.x, sample.y + s/2)
+			love.graphics.line(sample.x, sample.y - s/2, sample.x + s/2, sample.y + s/2)
 		end
 		love.graphics.setColor(r, g, 0, 128)
 
 		love.graphics.rectangle("fill", sample.x - s/2, sample.y - s/2, s, s)
+
+
 	end
 end

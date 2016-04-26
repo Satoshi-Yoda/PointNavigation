@@ -5,7 +5,7 @@ require "Point"
 Simulation = {}
 Simulation.__index = Simulation
 
-ANGLE_ERROR = 0.3 * math.pi / 180 -- radians
+ANGLE_ERROR = 0.2 * math.pi / 180 -- radians
 POINTS_COUNT = 7
 
 function Simulation.create()

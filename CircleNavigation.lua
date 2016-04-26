@@ -49,6 +49,7 @@ function CircleNavigation:calcCircledCrossPoints()
 	for key2,p2 in pairs(self.points) do
 	for key3,p3 in pairs(self.points) do
 	if key1 > key2 and key2 > key3 then
+	--if key1 ~= key2 and key2 ~= key3 and key1 ~= key3 then
 		local alpha1 = self.angles[key2] - self.angles[key1]
 		local alpha2 = self.angles[key3] - self.angles[key2]
 		local v = self:calcCircledPosition(p1, p2, p3, alpha1, alpha2)
