@@ -10,7 +10,7 @@ global = {
 	simulation = {},
 	navigation = {},
 	errorMapper = {},
-	buttons = {}
+	ui = {}
 }
 
 function calcErrorMap()
@@ -66,19 +66,19 @@ function love.load()
 	global.errorMapper = ErrorMapper.create()
 	
 	local cameraRadio = RadioContainer.create(12, 12, 95, 95, "Camera")
-	table.insert(global.buttons, cameraRadio)
+	table.insert(global.ui, cameraRadio)
 	cameraRadio:addButton(RadioButton.create(20, 24, "320px", make320camera))
 	cameraRadio:addButton(RadioButton.create(20, 49, "640px", make640camera, true))
 	cameraRadio:addButton(RadioButton.create(20, 74, "1920px", make1920camera))
 
 	local pointsRadio = RadioContainer.create(120, 12, 170, 120, "Points")
-	table.insert(global.buttons, pointsRadio)
+	table.insert(global.ui, pointsRadio)
 	pointsRadio:addButton(RadioButton.create(20, 24, "Random", createRandomPoints))
 	pointsRadio:addButton(RadioButton.create(20, 49, "Circle", createCirclePoints, true))
 	pointsRadio:addButton(RadioButton.create(20, 74, "Disk", createDiskPoints))
 	pointsRadio:addButton(RadioButton.create(20, 99, "Manual (left mouse)", createManualPoints))
 
-	table.insert(global.buttons, Button.create(305, 12, 120, 23, "Error map", calcErrorMap))
+	table.insert(global.ui, Button.create(305, 12, 120, 23, "Error map", calcErrorMap))
 end
 
 function love.update(dt)
@@ -87,7 +87,7 @@ function love.update(dt)
 	end
 
 	local buttonWorks = false
-	for key,button in pairs(global.buttons) do
+	for key,button in pairs(global.ui) do
 		buttonWorks = buttonWorks or button:update(dt)
 	end
 
@@ -106,7 +106,7 @@ function love.draw()
 	global.simulation:drawBase()
 	global.navigation:drawLast()
 
-	for key,button in pairs(global.buttons) do
+	for key,button in pairs(global.ui) do
 		button:draw()
 	end
 end
