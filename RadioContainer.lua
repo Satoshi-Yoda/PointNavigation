@@ -43,6 +43,8 @@ function RadioContainer:draw()
 	for i=-4,5 do
 		love.graphics.setColor(150, 170, 170, 255)
 		love.graphics.print(self.caption, self.x + 8 + i, self.y - 6)
+		love.graphics.print(self.caption, self.x + 8 + i, self.y - 6)
+		love.graphics.print(self.caption, self.x + 8 + i, self.y - 6)
 	end
 	love.graphics.setColor(32, 32, 32, 255)
 	love.graphics.print(self.caption, self.x + 8, self.y - 6)
