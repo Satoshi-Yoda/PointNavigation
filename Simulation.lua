@@ -5,7 +5,6 @@ require "Point"
 Simulation = {}
 Simulation.__index = Simulation
 
-ANGLE_ERROR = 0.2 * math.pi / 180 -- radians
 POINTS_COUNT = 7
 
 function Simulation.create()
@@ -13,9 +12,14 @@ function Simulation.create()
 	setmetatable(new, Simulation)
 
 	new.robot = Robot.create(480, 480, "real")
+	new:setAngleErrorFromCamera(640, 64)
 	new:createCirclePoints()
 
 	return new
+end
+
+function Simulation:setAngleErrorFromCamera(pixels, angle)
+	self.angleError = 3 * (angle / pixels) * math.pi / 180
 end
 
 function Simulation:createRandomPoints()
@@ -76,7 +80,7 @@ function Simulation:gatherAngles(position)
 	local angles = {}
 	for key,value in pairs(self.points) do
 		local newAngle = math.atan2(position.y - value.y, position.x - value.x)
-    	newAngle = newAngle + math.random() * ANGLE_ERROR * 2 - ANGLE_ERROR
+    	newAngle = newAngle + math.random() * self.angleError * 2 - self.angleError
     	table.insert(angles, newAngle)
 	end
 	return angles

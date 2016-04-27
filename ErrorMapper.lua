@@ -1,9 +1,10 @@
 ErrorMapper = {}
 ErrorMapper.__index = ErrorMapper
 
-SAMPLE_SIZE = 16
+SAMPLE_SIZE = 24
 SAMPLE_COUNT = 150
 SAMPLE_PER_TICK = 2
+ERROR_THRESHOLD = 0.4
 
 function ErrorMapper.create()
 	local new = {}
@@ -91,7 +92,7 @@ function ErrorMapper:draw()
 
 		local r = utils.math.clamp(0, 58.9341 * math.log(21.7891 * sample.error), 255)
 		local g = utils.math.clamp(0, -59.0062 * math.log(0.287272 * sample.error), 255)
-		if sample.error <= 0.2 then
+		if sample.error <= ERROR_THRESHOLD then
 			-- g = utils.math.clamp(0, g + 64, 255)
 		else
 			love.graphics.setColor(255, 0, 0, 64)

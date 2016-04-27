@@ -3,6 +3,8 @@ require "CircleNavigation"
 require "Simulation"
 require "ErrorMapper"
 require "Button"
+require "RadioButton"
+require "RadioContainer"
 
 global = {
 	simulation = {},
@@ -18,23 +20,35 @@ function calcErrorMap()
 end
 
 function createRandomPoints()
-	global.simulation = Simulation.create()
 	global.simulation:createRandomPoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
 end
 
 function createCirclePoints()
-	global.simulation = Simulation.create()
 	global.simulation:createCirclePoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
 end
 
 function createDiskPoints()
-	global.simulation = Simulation.create()
 	global.simulation:createDiskPoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
+	global.errorMapper = ErrorMapper.create()
+end
+
+function make320camera()
+	global.simulation:setAngleErrorFromCamera(320, 90)
+	global.errorMapper = ErrorMapper.create()
+end
+
+function make640camera()
+	global.simulation:setAngleErrorFromCamera(640, 64)
+	global.errorMapper = ErrorMapper.create()
+end
+
+function make1920camera()
+	global.simulation:setAngleErrorFromCamera(1920, 64)
 	global.errorMapper = ErrorMapper.create()
 end
 
@@ -48,11 +62,17 @@ function love.load()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
 	
-	table.insert(global.buttons, Button.create(10, 10, 120, 23, "Random points", createRandomPoints))
-	table.insert(global.buttons, Button.create(10, 40, 120, 23, "Circle points", createCirclePoints))
-	table.insert(global.buttons, Button.create(10, 70, 120, 23, "Disk points", createDiskPoints))
+	local cameraRadio = RadioContainer.create(10, 10, 95, 95, "Camera")
+	table.insert(global.buttons, cameraRadio)
+	cameraRadio:addButton(RadioButton.create(20, 24, "320px", make320camera))
+	cameraRadio:addButton(RadioButton.create(20, 49, "640px", make640camera, true))
+	cameraRadio:addButton(RadioButton.create(20, 74, "1920px", make1920camera))
 
-	table.insert(global.buttons, Button.create(140, 10, 120, 23, "Error map", calcErrorMap))
+	table.insert(global.buttons, Button.create(140, 10, 120, 23, "Random points", createRandomPoints))
+	table.insert(global.buttons, Button.create(140, 40, 120, 23, "Circle points", createCirclePoints))
+	table.insert(global.buttons, Button.create(140, 70, 120, 23, "Disk points", createDiskPoints))
+
+	table.insert(global.buttons, Button.create(270, 10, 120, 23, "Error map", calcErrorMap))
 end
 
 function love.update(dt)
