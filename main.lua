@@ -10,7 +10,9 @@ global = {
 	simulation = {},
 	navigation = {},
 	errorMapper = {},
-	ui = {}
+	ui = {},
+	mode = "none",
+	leftMouse = false
 }
 
 function calcErrorMap()
@@ -23,21 +25,25 @@ function createRandomPoints()
 	global.simulation:createRandomPoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
+	global.mode = "none"
 end
 
 function createCirclePoints()
 	global.simulation:createCirclePoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
+	global.mode = "none"
 end
 
 function createDiskPoints()
 	global.simulation:createDiskPoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
+	global.mode = "none"
 end
 
 function createManualPoints()
+	global.mode = "add"
 end
 
 function make320camera()
@@ -94,9 +100,15 @@ function love.update(dt)
 	if buttonWorks == false then
 		if love.mouse.isDown("l") then
 			local a, b = love.mouse.getPosition()
+			if global.leftMouse == false then
+				global.simulation:addPoint(a, b)
+			end
+			global.leftMouse = true
 			global.simulation.robot.x, global.simulation.robot.y = a, b
 			local angles = global.simulation:gatherAngles(global.simulation.robot)
 			global.navigation:calcPosition(angles)
+		else
+			global.leftMouse = false
 		end
 	end
 end

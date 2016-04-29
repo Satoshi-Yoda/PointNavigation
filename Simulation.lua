@@ -76,6 +76,17 @@ function Simulation:createDiskPoints()
 	end
 end
 
+function Simulation:addPoint(x, y)
+	local newPoint = Point.create(x, y, 0)
+	table.insert(self.points, newPoint)
+	local newRay = Ray.create(self.robot, newPoint)
+	table.insert(self.rays, newRay)
+
+	for key,point in pairs(self.points) do
+		point.index = key
+	end
+end
+
 function Simulation:gatherAngles(position)
 	local angles = {}
 	for key,value in pairs(self.points) do
