@@ -5,6 +5,7 @@ require "ErrorMapper"
 require "Button"
 require "RadioButton"
 require "RadioContainer"
+require "Snake"
 
 global = {
 	simulation = {},
@@ -12,7 +13,8 @@ global = {
 	errorMapper = {},
 	ui = {},
 	mode = "none",
-	leftMouse = false
+	leftMouse = false,
+	snake = {}
 }
 
 function calcErrorMap()
@@ -21,10 +23,16 @@ function calcErrorMap()
 	global.errorMapper.works = true
 end
 
+function startSnake()
+	global.snake = Snake.create()
+	global.snake.works = true
+end
+
 function createRandomPoints()
 	global.simulation:createRandomPoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
 	global.mode = "none"
 end
 
@@ -32,6 +40,7 @@ function createCirclePoints()
 	global.simulation:createCirclePoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
 	global.mode = "none"
 end
 
@@ -39,27 +48,32 @@ function createDiskPoints()
 	global.simulation:createDiskPoints()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
 	global.mode = "none"
 end
 
 function createManualPoints()
 	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
 	global.mode = "add"
 end
 
 function make320camera()
 	global.simulation:setAngleErrorFromCamera(320, 90)
 	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
 end
 
 function make640camera()
 	global.simulation:setAngleErrorFromCamera(640, 64)
 	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
 end
 
 function make1920camera()
 	global.simulation:setAngleErrorFromCamera(1920, 64)
 	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
 end
 
 function love.load()
@@ -71,6 +85,7 @@ function love.load()
 	global.simulation = Simulation.create()
 	global.navigation = CircleNavigation.create(global.simulation.points)
 	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
 	
 	local cameraRadio = RadioContainer.create(12, 12, 95, 95, "Camera")
 	table.insert(global.ui, cameraRadio)
@@ -86,11 +101,16 @@ function love.load()
 	pointsRadio:addButton(RadioButton.create(20, 99, "Manual (left mouse)", createManualPoints))
 
 	table.insert(global.ui, Button.create(305, 12, 120, 23, "Error map", calcErrorMap))
+	table.insert(global.ui, Button.create(305, 42, 120, 23, "Snake", startSnake))
 end
 
 function love.update(dt)
 	if global.errorMapper.works then
 		global.errorMapper:update(dt)
+	end
+
+	if global.snake.works then
+		global.snake:update(dt)
 	end
 
 	local buttonWorks = false
@@ -117,6 +137,7 @@ end
 
 function love.draw()
 	global.errorMapper:draw()
+	global.snake:draw()
 	global.simulation:drawBase()
 	global.navigation:drawLast()
 
