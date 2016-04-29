@@ -42,24 +42,52 @@ function CircleNavigation:drawLast()
 end
 
 function CircleNavigation:calcCircledCrossPoints()
+	local pointCount = 0
+	for key,point in pairs(self.points) do
+		pointCount = pointCount + 1
+	end
+
 	self.crossCircles = {}
 	self.crossPoints = {}
 	local count = 0
-	for key1,p1 in pairs(self.points) do
-	for key2,p2 in pairs(self.points) do
-	for key3,p3 in pairs(self.points) do
-	if key1 > key2 and key2 > key3 then
-	--if key1 ~= key2 and key2 ~= key3 and key1 ~= key3 then
-		local alpha1 = self.angles[key2] - self.angles[key1]
-		local alpha2 = self.angles[key3] - self.angles[key2]
-		local v = self:calcCircledPosition(p1, p2, p3, alpha1, alpha2)
-		local newCrossPoint = CrossPoint.create(v.x, v.y)
-		table.insert(self.crossPoints, newCrossPoint)
-		count = count + 1
+
+	if pointCount >= 3 then
+		for i=1,25 do
+			local key1 = 0
+			local key2 = 0
+			local key3 = 0
+			while key1 == key2 or key2 == key3 or key1 == key3 do
+				key1 = math.random(pointCount)
+				key2 = math.random(pointCount)
+				key3 = math.random(pointCount)
+			end
+
+			local p1 = self.points[key1]
+			local p2 = self.points[key2]
+			local p3 = self.points[key3]
+			local alpha1 = self.angles[key2] - self.angles[key1]
+			local alpha2 = self.angles[key3] - self.angles[key2]
+			local v = self:calcCircledPosition(p1, p2, p3, alpha1, alpha2)
+			local newCrossPoint = CrossPoint.create(v.x, v.y)
+			table.insert(self.crossPoints, newCrossPoint)
+			count = count + 1
+		end
 	end
-	end
-	end
-	end
+
+	-- for key1,p1 in pairs(self.points) do
+	-- for key2,p2 in pairs(self.points) do
+	-- for key3,p3 in pairs(self.points) do
+	-- if key1 > key2 and key2 > key3 then
+	-- 	local alpha1 = self.angles[key2] - self.angles[key1]
+	-- 	local alpha2 = self.angles[key3] - self.angles[key2]
+	-- 	local v = self:calcCircledPosition(p1, p2, p3, alpha1, alpha2)
+	-- 	local newCrossPoint = CrossPoint.create(v.x, v.y)
+	-- 	table.insert(self.crossPoints, newCrossPoint)
+	-- 	count = count + 1
+	-- end
+	-- end
+	-- end
+	-- end
 end
 
 function CircleNavigation:calcSupposedPosition()

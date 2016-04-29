@@ -43,6 +43,7 @@ function createDiskPoints()
 end
 
 function createManualPoints()
+	global.errorMapper = ErrorMapper.create()
 	global.mode = "add"
 end
 
@@ -100,8 +101,9 @@ function love.update(dt)
 	if buttonWorks == false then
 		if love.mouse.isDown("l") then
 			local a, b = love.mouse.getPosition()
-			if global.leftMouse == false then
+			if global.leftMouse == false and global.mode == "add" then
 				global.simulation:addPoint(a, b)
+				global.errorMapper = ErrorMapper.create()
 			end
 			global.leftMouse = true
 			global.simulation.robot.x, global.simulation.robot.y = a, b
