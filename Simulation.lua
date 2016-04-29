@@ -12,8 +12,8 @@ function Simulation.create()
 	setmetatable(new, Simulation)
 
 	new.robot = Robot.create(480, 480, "real")
-	new:setAngleErrorFromCamera(640, 64)
-	new:createCirclePoints()
+	new:setAngleErrorFromCamera(1920, 64)
+	new:createRectPoints()
 
 	return new
 end
