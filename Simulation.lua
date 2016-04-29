@@ -50,6 +50,32 @@ function Simulation:createCirclePoints()
 	end
 end
 
+function Simulation:createRectPoints()
+	self.points = {}
+	self.rays = {}
+
+	local count = 8
+
+	for i = 0, count - 1 do
+		local newPoint = Point.create(0, 0, i)
+		local x = math.cos(i * 2 * math.pi / count)
+		local y = math.sin(i * 2 * math.pi / count)
+		if math.abs(x) > math.abs(y) then
+			y = y / math.abs(x)
+			x = x / math.abs(x)
+		else
+			x = x / math.abs(y)
+			y = y / math.abs(y)
+		end
+		newPoint.x = 480 + x * 320
+		newPoint.y = 480 + y * 320
+		table.insert(self.points, newPoint)
+
+		local newRay = Ray.create(self.robot, newPoint)
+		table.insert(self.rays, newRay)
+	end
+end
+
 function Simulation:createDiskPoints()
 	self.points = {}
 	self.rays = {}

@@ -4,7 +4,7 @@ Snake = {}
 Snake.__index = Snake
 
 SNAKE_PER_TICK = 3
-SNAKE_R = 320
+SNAKE_R = 250
 CM_PER_PX = 7.8125
 SNAKE_SCALE = 4
 DIAMETER_CM = 22

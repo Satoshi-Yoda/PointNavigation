@@ -52,6 +52,14 @@ function createDiskPoints()
 	global.mode = "none"
 end
 
+function createRectPoints()
+	global.simulation:createRectPoints()
+	global.navigation = CircleNavigation.create(global.simulation.points)
+	global.errorMapper = ErrorMapper.create()
+	global.snake = Snake.create()
+	global.mode = "none"
+end
+
 function createManualPoints()
 	global.errorMapper = ErrorMapper.create()
 	global.snake = Snake.create()
@@ -93,12 +101,13 @@ function love.load()
 	cameraRadio:addButton(RadioButton.create(20, 49, "640px", make640camera, true))
 	cameraRadio:addButton(RadioButton.create(20, 74, "1920px", make1920camera))
 
-	local pointsRadio = RadioContainer.create(120, 12, 170, 120, "Points")
+	local pointsRadio = RadioContainer.create(120, 12, 175, 145, "Points")
 	table.insert(global.ui, pointsRadio)
 	pointsRadio:addButton(RadioButton.create(20, 24, "Random", createRandomPoints))
 	pointsRadio:addButton(RadioButton.create(20, 49, "Circle", createCirclePoints, true))
 	pointsRadio:addButton(RadioButton.create(20, 74, "Disk", createDiskPoints))
-	pointsRadio:addButton(RadioButton.create(20, 99, "Manual (left mouse)", createManualPoints))
+	pointsRadio:addButton(RadioButton.create(20, 99, "Rect (recommended)", createRectPoints))
+	pointsRadio:addButton(RadioButton.create(20, 124, "Manual (left mouse)", createManualPoints))
 
 	table.insert(global.ui, Button.create(305, 12, 120, 23, "Error map", calcErrorMap))
 	table.insert(global.ui, Button.create(305, 42, 120, 23, "Snake", startSnake))
