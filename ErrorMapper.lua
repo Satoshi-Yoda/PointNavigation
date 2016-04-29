@@ -20,6 +20,31 @@ function ErrorMapper.create()
 	return new
 end
 
+function ErrorMapper:getErrorForPoint(v)
+	local s = SAMPLE_SIZE
+	local j = math.floor((v.y + s/2) / s)
+	local i
+	local w = math.floor(960 / s) + 1
+	if j % 2 == 0 then
+		i = math.floor((v.x + s/2) / s) + 1
+	else
+		i = w - math.floor((v.x + s/2) / s)
+	end
+	
+	local sample = self.samples[i+j*w]
+	if sample ~= nil then
+		-- love.graphics.setColor(0, 0, 255, 255)
+		-- love.graphics.rectangle("fill", sample.x - s/2, sample.y - s/2, s, s)
+		if sample ~= nil and math.abs(sample.x - v.x) <= s/2 and math.abs(sample.y - v.y) <= s/2 then
+			return sample.error
+		else
+			return -1
+		end
+	else
+		return -1
+	end
+end
+
 function ErrorMapper:update(dt)
 	if self.done then
 		return
@@ -100,9 +125,15 @@ function ErrorMapper:draw()
 			love.graphics.line(sample.x, sample.y - s/2, sample.x + s/2, sample.y + s/2)
 		end
 		love.graphics.setColor(r, g, 0, 128)
-
 		love.graphics.rectangle("fill", sample.x - s/2, sample.y - s/2, s, s)
+	end
 
-
+	local currentPos = {}
+	currentPos.x, currentPos.y = love.mouse.getPosition()
+	local error = self:getErrorForPoint(currentPos)
+	local errorString = "error = " .. math.floor(error / 100 * 5000) .. "sm"
+	if error >= 0 then
+		love.graphics.setColor(0, 0, 0, 255)
+		love.graphics.print(errorString, currentPos.x + 12, currentPos.y - 6)
 	end
 end
