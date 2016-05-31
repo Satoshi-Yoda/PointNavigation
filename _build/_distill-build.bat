@@ -1,5 +1,8 @@
 del love.zip
 
+del main.lua
+ren "main [Obfuscated].lua" main.lua
+
 7z.exe a love.zip "../_pic*"
 7z.exe a love.zip "main.lua"
 7z.exe a love.zip "../conf.lua"
