@@ -128,7 +128,7 @@ function love.update(dt)
 	end
 
 	if buttonWorks == false then
-		if love.mouse.isDown("l") then
+		if love.mouse.isDown(1) then
 			local a, b = love.mouse.getPosition()
 			if global.leftMouse == false and global.mode == "add" then
 				global.simulation:addPoint(a, b)
