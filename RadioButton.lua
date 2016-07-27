@@ -19,7 +19,7 @@ end
 function RadioButton:update(dt)
 	local x, y = love.mouse.getPosition()
 	if math.abs(x - self.container.x - self.x) <= self.s/2 and math.abs(y - self.container.y - self.y) <= self.s/2 then
-		if love.mouse.isDown("l") then
+		if love.mouse.isDown(1) then
 			for key,button in pairs(self.container.buttons) do
 				button.pressed = false
 			end

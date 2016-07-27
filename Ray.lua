@@ -34,10 +34,6 @@ function Ray.createWithDirection(from, direction)
 	return new
 end
 
-function Ray:update(dt)
-	
-end
-
 function Ray:draw()
 	if self.mode == "target" then
 		love.graphics.setColor(255, 0, 0, 64)

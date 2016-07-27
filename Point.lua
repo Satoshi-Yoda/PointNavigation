@@ -14,10 +14,6 @@ function Point.create(x, y, index)
 	return new
 end
 
-function Point:update(dt)
-	
-end
-
 function Point:draw()
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.draw(Point.IMAGE, self.x, self.y, 0, 1, 1, Point.IMAGE:getWidth()/2, Point.IMAGE:getHeight()/2)

@@ -15,10 +15,6 @@ function Robot.create(x, y, type)
 	return new
 end
 
-function Robot:update(dt)
-	
-end
-
 function Robot:draw()
 	love.graphics.setColor(255, 255, 255)
 	if self.type == "real" then
