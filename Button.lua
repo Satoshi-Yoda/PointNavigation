@@ -19,7 +19,7 @@ end
 function Button:update(dt)
 	local x, y = love.mouse.getPosition()
 	if math.abs(x - self.x - self.w/2) <= self.w/2 and math.abs(y - self.y - self.h/2) <= self.h/2 then
-		if love.mouse.isDown("l") then
+		if love.mouse.isDown(1) then
 			self.pressed = true
 		else
 			if self.pressed == true then
